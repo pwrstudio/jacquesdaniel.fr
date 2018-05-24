@@ -1,0 +1,29 @@
+.grid {
+  display        : flex;
+  flex-wrap      : wrap;
+  justify-content: center;
+  &.infinite-scroll {
+    min-height: 120vh;
+  }
+
+  &.align-center {
+    align-items: center;
+  }
+
+  &.align-end {
+    align-items: flex-end;
+  }
+  margin-left    : 30px;
+  margin-bottom  : 120px;
+  margin-top     : 100px;
+
+  @include screen-size ('small') {
+    margin-left : 5px;
+    margin-right: 5px;
+    margin-top  : 120px;
+  }
+
+  &.busy {
+    // opacity: 0.4;
+  }
+}

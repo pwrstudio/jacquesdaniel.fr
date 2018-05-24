@@ -1,0 +1,128 @@
+#overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 1001;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#textbox {
+  width: 450px;
+  height: auto;
+  position: relative;
+  max-height: 70vh;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 12px;
+  padding-top: 10px;
+  background: rgba(255,255,255,0.96);
+  z-index: 20000;
+  overflow: auto;
+  font-size: 14px;
+  line-height: 18px;
+  border-bottom: 2px solid transparent;
+  border-top: 2px solid transparent;
+  @include hide-scroll;
+  article {
+    cursor: auto;
+    line-height: 18px;
+  }
+  h1 {
+    margin-bottom: 14px;
+    @include screen-size('small') {
+      margin-bottom: 10px;
+    }
+    cursor: auto;
+  }
+  #close-text {
+    display: none;
+  }
+  #download {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 24px;
+    z-index: 100000;
+    font-size: 12px;
+    &:hover {
+      text-decoration: underline;
+    }
+    a {
+      cursor: pointer;
+      color: $grey;
+      text-decoration: none;
+
+      &:visited {
+        color: $grey;
+      }
+      &:active {
+        color: $grey;
+      }
+      &:hover {
+        color: $black;
+        text-decoration: underline;
+      }
+    }
+  }
+  @include screen-size('small') {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    max-height: none;
+    h1 {
+      width: 100%;
+      margin-top: 12px;
+    }
+    article {
+      margin-top: 42px;
+    }
+    #close-text {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      display: block;
+      float: right;
+      font-size: 12px;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    #download {
+      display: none;
+    }
+  }
+}
+
+.handle {
+  position: absolute;
+  cursor: move !important;
+  &.top {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 24px;
+  }
+  &.bottom {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 24px;
+  }
+  &.left {
+    top: 0;
+    left: 0;
+    width: 18px;
+    height: 100%;
+  }
+  &.right {
+    top: 0;
+    right: 0;
+    width: 18px;
+    height: 100%;
+  }
+}
