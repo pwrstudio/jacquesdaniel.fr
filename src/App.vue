@@ -2,20 +2,43 @@
   <div id="app">
     <menu>
       <header :class='{"semi": $route.name === "index"}'>
-        <div class='logo'><span class='home-link' @click='toHome' id='logo'>Claire Fontaine</span></div>
-        <div class='about'><router-link v-if='main.loaded.index && main.weather.main && $route.name !== "index" && $route.name !== "single"' to='/index' id='index'>{{main.weather.name}} {{Math.round(main.weather.main.temp)}}°c, {{main.weather.weather[0].description}}, <span class='counter'>{{timeFormat}},</span> {{dateFormat}}</router-link></div>
-        <div v-if='$route.name === "home" || $route.name === "collection"'><input type='text' placeholder='search' v-model='searchTerm' @keyup.enter='submitSearch'></input></div>
-        <div v-if='$route.name === "search" && main.search.length > 0' id='search-marker'>search results ({{main.search.length}}): {{main.searchTerm}}</div>
+        <div class='logo'>
+          <span class='home-link'
+                @click='toHome'
+                id='logo'>Jacques Daniel</span>
+        </div>
+        <div class='about'>
+          <router-link v-if='main.loaded.index && main.weather.main && $route.name !== "index" && $route.name !== "single"'
+                       to='/index'
+                       id='index'>archive</router-link>
+        </div>
+        <div v-if='$route.name === "home" || $route.name === "collection"'><input type='text'
+                 placeholder='search'
+                 v-model='searchTerm'
+                 @keyup.enter='submitSearch'></input>
+        </div>
+        <div v-if='$route.name === "search" && main.search.length > 0'
+             id='search-marker'>search results ({{main.search.length}}): {{main.searchTerm}}</div>
         <div v-else-if='$route.name === "search" && main.search.length < 1'>no results</div>
       </header>
-      <div v-if='$route.name === "index" || $route.name === "single"' id='text-container' :class='{"index": $route.name === "index" }'>
+      <div v-if='$route.name === "index" || $route.name === "single"'
+           id='text-container'
+           :class='{"index": $route.name === "index" }'>
         <div :class='{"inner": $route.name === "index" }'>
-          <div v-if='main.loaded.single' class='caption-container'>
-            <cap v-if='main.single.acf.extended_caption_check' :content='main.single.acf.extended_caption' :links='main.single.acf.links'></cap>
-            <cap v-else :content='main.single.acf.caption' :links='main.single.acf.links'></cap>
-            <div class='share'>(<span class='share-toggle' @click='SHOW_SHARE'>share</span>)</div>
+          <div v-if='main.loaded.single'
+               class='caption-container'>
+            <cap v-if='main.single.acf.extended_caption_check'
+                 :content='main.single.acf.extended_caption'
+                 :links='main.single.acf.links'></cap>
+            <cap v-else
+                 :content='main.single.acf.caption'
+                 :links='main.single.acf.links'></cap>
+            <div class='share'>(
+              <span class='share-toggle'
+                    @click='SHOW_SHARE'>share</span>)</div>
           </div>
-          <div v-if='$route.name === "index" && main.loaded.index' id='index-container'>
+          <div v-if='$route.name === "index" && main.loaded.index'
+               id='index-container'>
             <div v-html='main.index.acf.text'></div>
           </div>
         </div>
@@ -41,7 +64,7 @@ export default {
     txt,
     share
   },
-  data () {
+  data() {
     return {
       searchTerm: '',
       filter: {
@@ -57,26 +80,39 @@ export default {
     }
   },
   computed: {
-    ...mapState([
-      'main'
-    ])
+    ...mapState(['main'])
   },
   methods: {
-    ...mapActions(['GET_ITEMS', 'GET_INDEX', 'GET_COLLECTIONS', 'GET_ALL_TEXTS', 'GET_WEATHER', 'SHOW_TEXT', 'SET_FILTER', 'RESET_SINGLE_ITEM', 'SET_CONTEXT', 'RESET_COLLECTION', 'RESET_SEARCH', 'HIDE_TEXT', 'SHOW_SHARE', 'HIDE_SHARE']),
-    submitSearch () {
+    ...mapActions([
+      'GET_ITEMS',
+      'GET_INDEX',
+      'GET_COLLECTIONS',
+      'GET_ALL_TEXTS',
+      'GET_WEATHER',
+      'SHOW_TEXT',
+      'SET_FILTER',
+      'RESET_SINGLE_ITEM',
+      'SET_CONTEXT',
+      'RESET_COLLECTION',
+      'RESET_SEARCH',
+      'HIDE_TEXT',
+      'SHOW_SHARE',
+      'HIDE_SHARE'
+    ]),
+    submitSearch() {
       this.$router.push({name: 'search', params: {term: this.searchTerm}})
     },
-    scrollToItem (id) {
+    scrollToItem(id) {
       setTimeout(() => {
         if (id && document.getElementById('item-' + id) != null) {
           window.scrollTo(0, document.getElementById('item-' + id).offsetTop - 40)
         } else {
           window.scrollTo(0, this.scrollY)
         }
-      // }, 20)
+        // }, 20)
       }, 250)
     },
-    toHome () {
+    toHome() {
       if (this.$route.name === 'home') {
         window.scrollTo(0, 0)
       } else {
@@ -84,12 +120,12 @@ export default {
         this.$router.push({name: 'home'})
       }
     },
-    toggleFilter (e) {
+    toggleFilter(e) {
       this.SET_FILTER(0)
       this.filter.extended = !this.filter.extended
     }
   },
-  mounted () {
+  mounted() {
     this.GET_ITEMS()
     this.GET_INDEX()
     this.GET_ALL_TEXTS()
@@ -100,22 +136,35 @@ export default {
       }
 
       if (from.name === 'search' && to.name === 'single') {
-        this.scrollY = (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0)
+        this.scrollY =
+          (window.pageYOffset || document.documentElement.scrollTop) -
+          (document.documentElement.clientTop || 0)
         this.SET_CONTEXT({
-          data: this.main.search.filter((item) => { return item.acf.Image_display !== 'None' }),
-          parent: 'search'})
+          data: this.main.search.filter(item => {
+            return item.acf.Image_display !== 'None'
+          }),
+          parent: 'search'
+        })
       }
       if (from.name === 'collection' && to.name === 'single') {
         this.isInsideCollection = true
         this.SET_CONTEXT({
-          data: this.main.collection.filter((item) => { return item.acf.Image_display !== 'None' }),
-          parent: 'collection'})
+          data: this.main.collection.filter(item => {
+            return item.acf.Image_display !== 'None'
+          }),
+          parent: 'collection'
+        })
       }
       if (from.name === 'home' && to.name === 'single') {
-        this.scrollY = (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0)
+        this.scrollY =
+          (window.pageYOffset || document.documentElement.scrollTop) -
+          (document.documentElement.clientTop || 0)
         this.SET_CONTEXT({
-          data: this.main.items.filter((item) => { return item.acf.show_in_front_page_mosaic && item.acf.Image_display !== 'None' }),
-          parent: 'home'})
+          data: this.main.items.filter(item => {
+            return item.acf.show_in_front_page_mosaic && item.acf.Image_display !== 'None'
+          }),
+          parent: 'home'
+        })
       }
       if (from.name === 'search' && to.name !== 'single') {
         this.searchTerm = ''
@@ -124,7 +173,10 @@ export default {
       if (to.name === 'home' || to.name === 'search' || to.name === 'index') {
         this.RESET_COLLECTION()
       }
-      if (from.name === 'single' && (to.name === 'home' || to.name === 'collection' || to.name === 'search')) {
+      if (
+        from.name === 'single' &&
+        (to.name === 'home' || to.name === 'collection' || to.name === 'search')
+      ) {
         this.scrollToItem(this.main.single.id)
       }
       if (from.name === 'collection' && to.name === 'home') {
@@ -145,22 +197,30 @@ export default {
     })
   },
   watch: {
-    'main.offset' () {
+    'main.offset'() {
       if (this.main.offset <= this.main.pages) {
         this.GET_ITEMS()
       }
     },
-    'main.loaded.index' () {
+    'main.loaded.index'() {
       this.GET_WEATHER(this.main.index.acf.city)
     },
-    'main.weather.main' () {
+    'main.weather.main'() {
       var now = new Date()
-      this.timeFormat = moment(now).tz(this.main.weather.timezone).format('HH:mm:ss')
-      this.dateFormat = moment(now).tz(this.main.weather.timezone).format('dddd Do MMMM YYYY')
+      this.timeFormat = moment(now)
+        .tz(this.main.weather.timezone)
+        .format('HH:mm:ss')
+      this.dateFormat = moment(now)
+        .tz(this.main.weather.timezone)
+        .format('dddd Do MMMM YYYY')
       setInterval(() => {
         now.setSeconds(now.getSeconds() + 1)
-        this.timeFormat = moment(now).tz(this.main.weather.timezone).format('HH:mm:ss')
-        this.dateFormat = moment(now).tz(this.main.weather.timezone).format('dddd Do MMMM YYYY')
+        this.timeFormat = moment(now)
+          .tz(this.main.weather.timezone)
+          .format('HH:mm:ss')
+        this.dateFormat = moment(now)
+          .tz(this.main.weather.timezone)
+          .format('dddd Do MMMM YYYY')
       }, 1000)
     }
   }
@@ -168,13 +228,13 @@ export default {
 </script>
 
 <style lang='scss'>
-@import "./style/helpers/_reset.css";
-@import "./style/helpers/_mixins.scss";
-@import "./style/helpers/_responsive.scss";
-@import "./style/_variables.scss";
-@import "./style/_exit.scss";
-@import "./assets/fonts/readingsans/styles.css";
-@import "./assets/fonts/readingsans-italics/styles.css";
+@import './style/helpers/_reset.css';
+@import './style/helpers/_mixins.scss';
+@import './style/helpers/_responsive.scss';
+@import './style/_variables.scss';
+@import './style/_exit.scss';
+@import './assets/fonts/readingsans/styles.css';
+@import './assets/fonts/readingsans-italics/styles.css';
 body {
   @include hide-scroll;
   line-height: $line-height;
@@ -193,7 +253,7 @@ a {
   &:hover {
     color: $black !important;
     text-decoration: underline;
-    background: rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.8);
     @include screen-size('small') {
       text-decoration: none;
     }
@@ -270,14 +330,15 @@ header {
   z-index: 1000;
   &.semi {
     width: 100vw;
-    background: rgba(255,255,255,0.9);
+    background: rgba(255, 255, 255, 0.9);
     -webkit-box-shadow: 0px 0px 10px 10px #fff !important;
     box-shadow: 0px 0px 10px 10px #fff !important;
     div {
       margin-bottom: 0 !important;
     }
   }
-  a, .home-link {
+  a,
+  .home-link {
     color: black;
     cursor: pointer;
     text-decoration: none;
@@ -285,7 +346,7 @@ header {
     &:hover {
       color: black;
       text-decoration: underline;
-      background: rgba(255,255,255,0.8);
+      background: rgba(255, 255, 255, 0.8);
     }
     &:visited {
       color: black;
@@ -325,7 +386,7 @@ header {
       margin-bottom: $line-height;
     }
     .link-container {
-        display: block;
+      display: block;
       a {
         color: $grey;
         text-decoration: none;
@@ -333,7 +394,7 @@ header {
         &:hover {
           color: $black;
           text-decoration: underline;
-          background: rgba(255,255,255,0.9);
+          background: rgba(255, 255, 255, 0.9);
         }
         &:visited {
           color: $grey;
@@ -362,7 +423,7 @@ header {
     cursor: pointer;
     text-decoration: underline;
     color: $black;
-    background: rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.8);
   }
 }
 em {
@@ -376,7 +437,7 @@ em {
   &:hover {
     color: $black;
     text-decoration: underline;
-    background: rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.8);
   }
   &:visited {
     color: $grey;
@@ -386,8 +447,8 @@ em {
   }
 }
 #index-container {
-  text-size:16px;
-  line-height:19px;
+  text-size: 16px;
+  line-height: 19px;
   p {
     padding-right: 24px;
   }
@@ -397,7 +458,7 @@ em {
     &:hover {
       color: $black;
       text-decoration: underline;
-      background: rgba(255,255,255,0.8);
+      background: rgba(255, 255, 255, 0.8);
     }
     &:visited {
       color: $grey;
@@ -422,7 +483,7 @@ em {
   &:hover {
     color: $black;
     text-decoration: underline;
-    background: rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.8);
   }
   &:visited {
     color: black;
@@ -457,7 +518,7 @@ em {
     span {
       color: $black;
       text-decoration: underline;
-      background: rgba(255,255,255,0.8);
+      background: rgba(255, 255, 255, 0.8);
       cursor: pointer;
       padding-top: 1px;
     }
@@ -467,7 +528,8 @@ em {
 .filter-item {
   display: block;
   cursor: pointer;
-  &:hover, &.active {
+  &:hover,
+  &.active {
     text-decoration: underline;
   }
 }
@@ -489,5 +551,4 @@ em {
     }
   }
 }
-
 </style>
