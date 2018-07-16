@@ -107,24 +107,5 @@ export default {
         }
       )
     })
-  },
-  getWeather(location) {
-    return new Promise((resolve, reject) => {
-      Vue.http
-        .get(
-          'http://api.openweathermap.org/data/2.5/weather?q=' +
-            encodeURI(location) +
-            '&appid=266ae916c20243f46a521cf3578389f0&units=metric'
-        )
-        .then(
-          response => {
-            console.dir(response.body)
-            resolve(response.body)
-          },
-          response => {
-            reject()
-          }
-        )
-    })
   }
 }

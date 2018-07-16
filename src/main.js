@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import 'babel-polyfill'
 import VueRouter from 'vue-router'
-import ga from 'vue-ga'
+// import ga from 'vue-ga'
 import App from './App'
 import store from './store'
 import index from './components/index'
@@ -49,16 +49,16 @@ const router = new VueRouter({
       component: txt
     }
   ],
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
     } else {
-      return { x: 0, y: 0 }
+      return {x: 0, y: 0}
     }
   }
 })
 
-ga(router, 'UA-101010427-1')
+// ga(router, 'UA-101010427-1')
 
 /* eslint-disable no-new */
 new Vue({

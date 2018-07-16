@@ -8,7 +8,7 @@
                 id='logo'>Jacques Daniel</span>
         </div>
         <div class='about'>
-          <router-link v-if='main.loaded.index && main.weather.main && $route.name !== "index" && $route.name !== "single"'
+          <router-link v-if='main.loaded.index && $route.name !== "index" && $route.name !== "single"'
                        to='/index'
                        id='index'>archive</router-link>
         </div>
@@ -45,13 +45,12 @@
       </div>
     </menu>
     <router-view></router-view>
-    <txt v-if='main.loaded.text'></txt>
-    <share v-if='main.loaded.share'></share>
+    <txt v-if='main.loaded.text' />
+    <share v-if='main.loaded.share' />
   </div>
 </template>
 
 <script>
-import moment from 'moment-timezone'
 import {mapState, mapActions} from 'vuex'
 import cap from './components/cap'
 import txt from './components/txt'
@@ -88,7 +87,6 @@ export default {
       'GET_INDEX',
       'GET_COLLECTIONS',
       'GET_ALL_TEXTS',
-      'GET_WEATHER',
       'SHOW_TEXT',
       'SET_FILTER',
       'RESET_SINGLE_ITEM',
@@ -131,7 +129,6 @@ export default {
     this.GET_ALL_TEXTS()
     this.$router.beforeEach((to, from, next) => {
       if (from.name === 'single' && to.name === 'single' && !this.isInsideCollection) {
-        // console.log('caching id', to.params.id)
         this.cachedSingleId = to.params.id
       }
 
@@ -201,27 +198,6 @@ export default {
       if (this.main.offset <= this.main.pages) {
         this.GET_ITEMS()
       }
-    },
-    'main.loaded.index'() {
-      this.GET_WEATHER(this.main.index.acf.city)
-    },
-    'main.weather.main'() {
-      var now = new Date()
-      this.timeFormat = moment(now)
-        .tz(this.main.weather.timezone)
-        .format('HH:mm:ss')
-      this.dateFormat = moment(now)
-        .tz(this.main.weather.timezone)
-        .format('dddd Do MMMM YYYY')
-      setInterval(() => {
-        now.setSeconds(now.getSeconds() + 1)
-        this.timeFormat = moment(now)
-          .tz(this.main.weather.timezone)
-          .format('HH:mm:ss')
-        this.dateFormat = moment(now)
-          .tz(this.main.weather.timezone)
-          .format('dddd Do MMMM YYYY')
-      }, 1000)
     }
   }
 }
@@ -499,11 +475,6 @@ em {
 .no-scroll {
   overflow: hidden;
 }
-// .search-number {
-//   @include screen-size('small') {
-//     display: block;
-//   }
-// }
 
 #filter {
   position: fixed;
