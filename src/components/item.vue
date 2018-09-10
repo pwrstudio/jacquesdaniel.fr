@@ -7,8 +7,8 @@
         <img v-else :src='item.acf.mosaic_image.url' class='no-link'>
       </span>
       <span v-else >
-        <img v-if='item.acf.Image_display !== "None" && item.acf.mosaic_image.sizes && item.acf.mosaic_image.sizes["pwr-small"]' @click='openSingle' :src='item.acf.mosaic_image.sizes["pwr-small"]'>
-        <img v-else-if='item.acf.mosaic_image.sizes && item.acf.mosaic_image.sizes["pwr-small"]' :src='item.acf.mosaic_image.sizes["pwr-small"]' class='no-link'>
+        <img v-if='item.acf.Image_display !== "None" && item.acf.mosaic_image.sizes && item.acf.mosaic_image.sizes["pwr-medium"]' @click='openSingle' :src='item.acf.mosaic_image.sizes["pwr-medium"]'>
+        <img v-else-if='item.acf.mosaic_image.sizes && item.acf.mosaic_image.sizes["pwr-medium"]' :src='item.acf.mosaic_image.sizes["pwr-medium"]' class='no-link'>
       </span>
       <figcaption :class='{"shown": captionShown}'>
         <cap :content='item.acf.caption'  :id='item.id' :links='item.acf.links'></cap>
@@ -19,14 +19,14 @@
 
 <script>
 import cap from './cap'
-import {mapState, mapActions} from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import preloader from 'preloader'
 export default {
   name: 'item',
   components: {
     cap
   },
-  data () {
+  data() {
     return {
       captionShown: false,
       loaded: false
@@ -34,10 +34,8 @@ export default {
   },
   props: ['item', 'index', 'mosaic'],
   computed: {
-    ...mapState([
-      'main'
-    ]),
-    imageClass () {
+    ...mapState(['main']),
+    imageClass() {
       if (this.item.acf.image_orienation === 'Vertical') {
         return 'vertical'
       } else {
@@ -47,11 +45,14 @@ export default {
   },
   methods: {
     ...mapActions(['SET_N']),
-    openSingle () {
+    openSingle() {
       this.SET_N(this.index)
-      this.$router.push({name: 'single', params: {id: this.item.id, slug: this.item.slug}})
+      this.$router.push({
+        name: 'single',
+        params: { id: this.item.id, slug: this.item.slug }
+      })
     },
-    inHandler () {
+    inHandler() {
       if (!this.loaded) {
         if (this.item.acf.full_size_image) {
           let loader = preloader({
@@ -68,9 +69,9 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import "../style/helpers/_mixins.scss";
-@import "../style/helpers/_responsive.scss";
-@import "../style/_variables.scss";
+@import '../style/helpers/_mixins.scss';
+@import '../style/helpers/_responsive.scss';
+@import '../style/_variables.scss';
 .item {
   margin-right: 40px;
   margin-bottom: 6px;
@@ -92,7 +93,8 @@ export default {
       }
     }
   }
-  &:hover, &.active-item {
+  &:hover,
+  &.active-item {
     figcaption {
       opacity: 1;
     }
@@ -111,7 +113,8 @@ export default {
       width: 100%;
     }
   }
-  img, iframe {
+  img,
+  iframe {
     cursor: pointer;
     display: block;
     margin-left: auto;
