@@ -9,20 +9,18 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'cap',
   props: ['content', 'links', 'id'],
   computed: {
-    ...mapState([
-      'main'
-    ]),
-    noSpaceContent () {
+    ...mapState(['main']),
+    noSpaceContent() {
       return this.content.replace(/&nbsp;/g, '<div class="divider"></div>')
     }
   },
   methods: {
-    closestByClass (el, clazz) {
+    closestByClass(el, clazz) {
       while (el.className !== clazz) {
         el = el.parentNode
         if (!el) {
@@ -33,13 +31,19 @@ export default {
     },
     ...mapActions(['SHOW_TEXT', 'SET_COLLECTION_ENTRY'])
   },
-  mounted () {
+  mounted() {
     // Rig collection links
     const collectionLinks = this.$el.querySelectorAll('.collection-link')
     for (let i = 0; i < collectionLinks.length; i++) {
       collectionLinks[i].addEventListener('click', () => {
         this.SET_COLLECTION_ENTRY(this.id)
-        this.$router.push({name: 'collection', params: {id: collectionLinks[i].dataset.id, slug: collectionLinks[i].dataset.href}})
+        this.$router.push({
+          name: 'collection',
+          params: {
+            id: collectionLinks[i].dataset.id,
+            slug: collectionLinks[i].dataset.href
+          }
+        })
       })
     }
     // Rig text links
@@ -59,17 +63,18 @@ export default {
 </script>
 
 <style lang='scss'>
-@import "../style/helpers/_reset.css";
-@import "../style/helpers/_mixins.scss";
-@import "../style/helpers/_responsive.scss";
-@import "../style/_variables.scss";
+@import '../style/helpers/_reset.css';
+@import '../style/helpers/_mixins.scss';
+@import '../style/helpers/_responsive.scss';
+@import '../style/_variables.scss';
 
 .link-container {
   display: inline;
   margin-right: 3px;
   margin-left: 1px;
   span {
-    a, span {
+    a,
+    span {
       cursor: pointer;
       color: $grey;
       text-decoration: none;
@@ -91,7 +96,8 @@ export default {
 .caption-text {
   display: inline;
   p {
-    display: inline !important;
+    // display: inline !important;
+    margin-bottom: 12px;
     width: auto;
     br {
       width: 100px;
@@ -123,5 +129,4 @@ export default {
     }
   }
 }
-
 </style>

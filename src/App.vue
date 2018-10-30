@@ -33,8 +33,7 @@
             <cap v-else
                  :content='main.single.acf.caption'
                  :links='main.single.acf.links'></cap>
-            <div class='share'>(
-              <span class='share-toggle'
+            <div class='share'>(<span class='share-toggle'
                     @click='SHOW_SHARE'>share</span>)</div>
           </div>
           <div v-if='$route.name === "index" && main.loaded.index'
@@ -51,7 +50,7 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import cap from './components/cap'
 import txt from './components/txt'
 import share from './components/share'
@@ -98,12 +97,15 @@ export default {
       'HIDE_SHARE'
     ]),
     submitSearch() {
-      this.$router.push({name: 'search', params: {term: this.searchTerm}})
+      this.$router.push({ name: 'search', params: { term: this.searchTerm } })
     },
     scrollToItem(id) {
       setTimeout(() => {
         if (id && document.getElementById('item-' + id) != null) {
-          window.scrollTo(0, document.getElementById('item-' + id).offsetTop - 40)
+          window.scrollTo(
+            0,
+            document.getElementById('item-' + id).offsetTop - 40
+          )
         } else {
           window.scrollTo(0, this.scrollY)
         }
@@ -115,7 +117,7 @@ export default {
         window.scrollTo(0, 0)
       } else {
         this.RESET_SINGLE_ITEM()
-        this.$router.push({name: 'home'})
+        this.$router.push({ name: 'home' })
       }
     },
     toggleFilter(e) {
@@ -128,7 +130,11 @@ export default {
     this.GET_INDEX()
     this.GET_ALL_TEXTS()
     this.$router.beforeEach((to, from, next) => {
-      if (from.name === 'single' && to.name === 'single' && !this.isInsideCollection) {
+      if (
+        from.name === 'single' &&
+        to.name === 'single' &&
+        !this.isInsideCollection
+      ) {
         this.cachedSingleId = to.params.id
       }
 
@@ -158,7 +164,10 @@ export default {
           (document.documentElement.clientTop || 0)
         this.SET_CONTEXT({
           data: this.main.items.filter(item => {
-            return item.acf.show_in_front_page_mosaic && item.acf.Image_display !== 'None'
+            return (
+              item.acf.show_in_front_page_mosaic &&
+              item.acf.Image_display !== 'None'
+            )
           }),
           parent: 'home'
         })
@@ -423,7 +432,7 @@ em {
   }
 }
 #index-container {
-  text-size: 16px;
+  font-size: 16px;
   line-height: 19px;
   p {
     padding-right: 24px;
