@@ -21,8 +21,8 @@
   background: rgba(255,255,255,0.96);
   z-index: 20000;
   overflow: auto;
-  font-size: 14px;
-  line-height: 18px;
+    font-size: $font-size-large;
+
   border-bottom: 2px solid transparent;
   border-top: 2px solid transparent;
   @include hide-scroll;
@@ -46,7 +46,12 @@
     top: 10px;
     right: 24px;
     z-index: 100000;
-    font-size: 12px;
+    font-size: $font-size-large;
+    line-height: $line-height-large;
+    @include screen-size('small') {
+      font-size: $font-size-small;
+      line-height: $line-height-small;
+    }
     &:hover {
       text-decoration: underline;
     }
@@ -87,7 +92,12 @@
       right: 20px;
       display: block;
       float: right;
-      font-size: 12px;
+      font-size: $font-size-large;
+      line-height: $line-height-large;
+      @include screen-size('small') {
+        font-size: $font-size-small;
+        line-height: $line-height-small;
+      }
       &:hover {
         text-decoration: underline;
       }

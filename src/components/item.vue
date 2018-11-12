@@ -85,9 +85,12 @@ export default {
     max-width: 400px;
     padding-top: 8px;
     min-height: 80px;
-    font-size: $font-size;
+    font-size: $font-size-large;
+    line-height: $line-height-large;
     @include screen-size('small') {
       opacity: 1;
+      font-size: $font-size-small;
+      line-height: $line-height-small;
       &.shown {
         opacity: 1;
       }

@@ -218,19 +218,27 @@ export default {
 @import './style/helpers/_responsive.scss';
 @import './style/_variables.scss';
 @import './style/_exit.scss';
-@import './assets/fonts/readingsans/styles.css';
-@import './assets/fonts/readingsans-italics/styles.css';
+// @import './assets/fonts/readingsans/styles.css';
+// @import './assets/fonts/readingsans-italics/styles.css';
+@import './assets/fonts/readingserif/styles.css';
+@import './assets/fonts/readingserif-italic/styles.css';
+
 body {
   @include hide-scroll;
-  line-height: $line-height;
 }
 
 #app {
   font-family: $sans-serif-stack;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: $font-size;
+  font-size: $font-size-large;
+  line-height: $line-height-large;
+  @include screen-size('small') {
+    font-size: $font-size-small;
+    line-height: $line-height-small;
+  }
 }
+
 a {
   color: $grey;
   cursor: pointer;
@@ -262,7 +270,7 @@ menu {
   input {
     outline: none;
     border: none;
-    font-size: $font-size;
+    font-size: $font-size-large;
     font-family: $sans-serif-stack;
     background: transparent;
     opacity: 1;
@@ -271,8 +279,8 @@ menu {
     margin-left: 0;
     line-height: $line-height;
     position: relative;
-    // top: -1px;
     @include screen-size('small') {
+      font-size: $font-size-small;
       &::placeholder {
         position: relative;
         left: -1px;
@@ -432,8 +440,6 @@ em {
   }
 }
 #index-container {
-  font-size: 16px;
-  line-height: 19px;
   p {
     padding-right: 24px;
   }

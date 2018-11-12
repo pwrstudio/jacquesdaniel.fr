@@ -1,0 +1,11 @@
+@font-face {
+    font-family: "NimbusRomanDOT-Regular";
+    src: url("NimbusRomanDOT-Regular.eot");
+    src: url("NimbusRomanDOT-Regular.eot?#iefix") format("embedded-opentype"),
+         url("NimbusRomanDOT-Regular.woff2") format("woff2"),
+         url("NimbusRomanDOT-Regular.woff") format("woff"),
+         url("NimbusRomanDOT-Regular.ttf") format("ttf"),
+         url("NimbusRomanDOT-Regular.svg#NimbusRomanDOT-Regular") format("svg");
+    font-style: normal;
+    font-weight: regular;
+}
