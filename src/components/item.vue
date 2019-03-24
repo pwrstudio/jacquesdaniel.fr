@@ -2,14 +2,17 @@
   <div :id='"item-" + item.id' v-if='($route.name === "home" && mosaic && item.acf.show_in_front_page_mosaic) || $route.name === "search" || $route.name === "collection"' class='item'>
     <v-waypoint @waypoint-in="inHandler"></v-waypoint>
     <div :class='imageClass'>
-      <span v-if='item.acf.mosaic_image.mime_type === "image/gif"'>
+      <template v-if='item.acf.mosaic_image.mime_type === "image/gif"'>
         <img v-if='item.acf.Image_display !== "None"' @click='openSingle' :src='item.acf.mosaic_image.url'>
         <img v-else :src='item.acf.mosaic_image.url' class='no-link'>
-      </span>
-      <span v-else >
-        <img v-if='item.acf.Image_display !== "None" && item.acf.mosaic_image.sizes && item.acf.mosaic_image.sizes["pwr-medium"]' @click='openSingle' :src='item.acf.mosaic_image.sizes["pwr-medium"]'>
+      </template>
+      <template v-else >
+        <a :href='"collection/" + item.acf.image_collection_link.term_id + "/" + item.acf.image_collection_link.name ' v-if='item.acf.link_image_to_collection && item.acf.mosaic_image.sizes && item.acf.mosaic_image.sizes["pwr-medium"]'>
+          <img class='ksksks' :src='item.acf.mosaic_image.sizes["pwr-medium"]'>
+        </a>
+        <img v-else-if='item.acf.Image_display !== "None" && item.acf.mosaic_image.sizes && item.acf.mosaic_image.sizes["pwr-medium"]' @click='openSingle' :src='item.acf.mosaic_image.sizes["pwr-medium"]'>
         <img v-else-if='item.acf.mosaic_image.sizes && item.acf.mosaic_image.sizes["pwr-medium"]' :src='item.acf.mosaic_image.sizes["pwr-medium"]' class='no-link'>
-      </span>
+      </template>
       <figcaption :class='{"shown": captionShown}'>
         <cap :content='item.acf.caption'  :id='item.id' :links='item.acf.links'></cap>
       </figcaption>
@@ -24,12 +27,12 @@ import preloader from 'preloader'
 export default {
   name: 'item',
   components: {
-    cap
+    cap,
   },
   data() {
     return {
       captionShown: false,
-      loaded: false
+      loaded: false,
     }
   },
   props: ['item', 'index', 'mosaic'],
@@ -41,7 +44,7 @@ export default {
       } else {
         return 'horizontal'
       }
-    }
+    },
   },
   methods: {
     ...mapActions(['SET_N']),
@@ -49,22 +52,22 @@ export default {
       this.SET_N(this.index)
       this.$router.push({
         name: 'single',
-        params: { id: this.item.id, slug: this.item.slug }
+        params: { id: this.item.id, slug: this.item.slug },
       })
     },
     inHandler() {
       if (!this.loaded) {
         if (this.item.acf.full_size_image) {
           let loader = preloader({
-            xhrImages: false
+            xhrImages: false,
           })
           loader.add(this.item.acf.full_size_image.sizes['pwr-large'])
           loader.load()
         }
         this.loaded = true
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

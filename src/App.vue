@@ -7,21 +7,17 @@
                 @click='toHome'
                 id='logo'>Jacques Daniel</span>
         </div>
-        <div class='about'>
+        <!-- <div class='about'>
           <router-link v-if='main.loaded.index && $route.name !== "index" && $route.name !== "single"'
                        to='/index'
                        id='index'>archive</router-link>
-        </div>
-        <div v-if='$route.name === "home" || $route.name === "collection"'><input type='text'
-                 placeholder='search'
-                 v-model='searchTerm'
-                 @keyup.enter='submitSearch'></input>
-        </div>
+        </div> -->
         <div v-if='$route.name === "search" && main.search.length > 0'
              id='search-marker'>search results ({{main.search.length}}): {{main.searchTerm}}</div>
         <div v-else-if='$route.name === "search" && main.search.length < 1'>no results</div>
       </header>
-      <div v-if='$route.name === "index" || $route.name === "single"'
+      <!-- TEXT -->
+      <div v-if='$route.name === "index" || $route.name === "single" || $route.name === "home"'
            id='text-container'
            :class='{"index": $route.name === "index" }'>
         <div :class='{"inner": $route.name === "index" }'>
@@ -36,11 +32,18 @@
             <div class='share'>(<span class='share-toggle'
                     @click='SHOW_SHARE'>share</span>)</div>
           </div>
-          <div v-if='$route.name === "index" && main.loaded.index'
+          <div v-if='main.loaded.index && ($route.name === "home" || $route.name === "index")'
                id='index-container'>
             <div v-html='main.index.acf.text'></div>
           </div>
         </div>
+      </div>
+      <!-- SEARCH -->
+      <div v-if='$route.name === "home" || $route.name === "collection"'>
+        <input type='text'
+          placeholder='search'
+          v-model='searchTerm'
+          @keyup.enter='submitSearch'/>
       </div>
     </menu>
     <router-view></router-view>
@@ -60,25 +63,25 @@ export default {
   components: {
     cap,
     txt,
-    share
+    share,
   },
   data() {
     return {
       searchTerm: '',
       filter: {
         extended: false,
-        id: 0
+        id: 0,
       },
       timeNow: {},
       timeFormat: '',
       dateFormat: '',
       scrollY: 0,
       isInsideCollection: false,
-      cachedSingleId: -1
+      cachedSingleId: -1,
     }
   },
   computed: {
-    ...mapState(['main'])
+    ...mapState(['main']),
   },
   methods: {
     ...mapActions([
@@ -94,7 +97,7 @@ export default {
       'RESET_SEARCH',
       'HIDE_TEXT',
       'SHOW_SHARE',
-      'HIDE_SHARE'
+      'HIDE_SHARE',
     ]),
     submitSearch() {
       this.$router.push({ name: 'search', params: { term: this.searchTerm } })
@@ -104,7 +107,7 @@ export default {
         if (id && document.getElementById('item-' + id) != null) {
           window.scrollTo(
             0,
-            document.getElementById('item-' + id).offsetTop - 40
+            document.getElementById('item-' + id).offsetTop - 40,
           )
         } else {
           window.scrollTo(0, this.scrollY)
@@ -123,7 +126,7 @@ export default {
     toggleFilter(e) {
       this.SET_FILTER(0)
       this.filter.extended = !this.filter.extended
-    }
+    },
   },
   mounted() {
     this.GET_ITEMS()
@@ -146,7 +149,7 @@ export default {
           data: this.main.search.filter(item => {
             return item.acf.Image_display !== 'None'
           }),
-          parent: 'search'
+          parent: 'search',
         })
       }
       if (from.name === 'collection' && to.name === 'single') {
@@ -155,7 +158,7 @@ export default {
           data: this.main.collection.filter(item => {
             return item.acf.Image_display !== 'None'
           }),
-          parent: 'collection'
+          parent: 'collection',
         })
       }
       if (from.name === 'home' && to.name === 'single') {
@@ -169,7 +172,7 @@ export default {
               item.acf.Image_display !== 'None'
             )
           }),
-          parent: 'home'
+          parent: 'home',
         })
       }
       if (from.name === 'search' && to.name !== 'single') {
@@ -207,8 +210,8 @@ export default {
       if (this.main.offset <= this.main.pages) {
         this.GET_ITEMS()
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -289,8 +292,8 @@ menu {
   }
 }
 header {
-  position: absolute;
-  top: 0;
+  // position: absolute;
+  // top: 0;
   padding-top: 34px;
   @include screen-size('small') {
     padding-top: 24px;
@@ -350,15 +353,16 @@ header {
   }
 }
 #text-container {
-  position: absolute;
-  left: 0px;
-  top: 0;
-  max-height: 100vh;
-  width: 300px;
-  z-index: 1;
+  // position: absolute;
+  // left: 0px;
+  // top: 0;
+  // max-height: 100vh;
+  // width: 300px;
+  // z-index: 1;
   // padding-right: 10px;
-  overflow: hidden;
-  padding-top: 64px;
+  // overflow: hidden;
+  // padding-top: 64px;
+  height: auto;
   @include screen-size('small') {
     padding-top: 50px;
   }
@@ -458,7 +462,8 @@ em {
       color: $grey;
     }
   }
-  padding-bottom: $line-height * 10;
+  // padding-bottom: $line-height * 10;
+  margin-bottom: 14px;
   @include hide-scroll;
 }
 
