@@ -7,11 +7,11 @@
                 @click='toHome'
                 id='logo'>Jacques Daniel</span>
         </div>
-        <!-- <div class='about'>
+        <div class='about'>
           <router-link v-if='main.loaded.index && $route.name !== "index" && $route.name !== "single"'
                        to='/index'
                        id='index'>archive</router-link>
-        </div> -->
+        </div>
         <div v-if='$route.name === "search" && main.search.length > 0'
              id='search-marker'>search results ({{main.search.length}}): {{main.searchTerm}}</div>
         <div v-else-if='$route.name === "search" && main.search.length < 1'>no results</div>
@@ -29,10 +29,10 @@
             <cap v-else
                  :content='main.single.acf.caption'
                  :links='main.single.acf.links'></cap>
-            <div class='share'>(<span class='share-toggle'
-                    @click='SHOW_SHARE'>share</span>)</div>
+            <!-- <div class='share'>(<span class='share-toggle'
+                    @click='SHOW_SHARE'>share</span>)</div> -->
           </div>
-          <div v-if='main.loaded.index && ($route.name === "home" || $route.name === "index")'
+          <div v-if='main.loaded.index && $route.name === "index"'
                id='index-container'>
             <div v-html='main.index.acf.text'></div>
           </div>
@@ -48,7 +48,7 @@
     </menu>
     <router-view></router-view>
     <txt v-if='main.loaded.text' />
-    <share v-if='main.loaded.share' />
+    <!-- <share v-if='main.loaded.share' /> -->
   </div>
 </template>
 
@@ -56,14 +56,13 @@
 import { mapState, mapActions } from 'vuex'
 import cap from './components/cap'
 import txt from './components/txt'
-import share from './components/share'
+// import share from './components/share'
 
 export default {
   name: 'app',
   components: {
     cap,
     txt,
-    share,
   },
   data() {
     return {
@@ -96,7 +95,7 @@ export default {
       'RESET_COLLECTION',
       'RESET_SEARCH',
       'HIDE_TEXT',
-      'SHOW_SHARE',
+      // 'SHOW_SHARE',
       'HIDE_SHARE',
     ]),
     submitSearch() {
@@ -201,7 +200,7 @@ export default {
         this.RESET_SINGLE_ITEM()
       }
       this.HIDE_TEXT()
-      this.HIDE_SHARE()
+      // this.HIDE_SHARE()
       next()
     })
   },
@@ -280,6 +279,7 @@ menu {
     padding-left: 1px;
     padding: 0 !important;
     margin-left: 0;
+    top: -6px;
     line-height: $line-height;
     position: relative;
     @include screen-size('small') {
@@ -353,27 +353,20 @@ header {
   }
 }
 #text-container {
-  // position: absolute;
-  // left: 0px;
-  // top: 0;
-  // max-height: 100vh;
-  // width: 300px;
-  // z-index: 1;
-  // padding-right: 10px;
-  // overflow: hidden;
-  // padding-top: 64px;
+  width: 300px;
+  padding-right: 10px;
   height: auto;
-  @include screen-size('small') {
-    padding-top: 50px;
-  }
+  // @include screen-size('small') {
+  //   padding-top: 50px;
+  // }
   &.index {
     padding-top: 0;
   }
   .inner {
-    padding-top: 63px;
-    @include screen-size('small') {
-      padding-top: 50px;
-    }
+    padding-top: 14px;
+    // @include screen-size('small') {
+    //   padding-top: 50px;
+    // }
     margin-right: -16px;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -467,27 +460,29 @@ em {
   @include hide-scroll;
 }
 
-.share {
-  margin-top: 16px;
-}
+// .share {
+//   margin-top: 16px;
+// }
 
-.share-toggle {
-  cursor: pointer;
-  color: $grey;
-  text-decoration: none;
-  padding-top: 1px;
-  &:hover {
-    color: $black;
-    text-decoration: underline;
-    background: rgba(255, 255, 255, 0.8);
-  }
-  &:visited {
-    color: black;
-  }
-  &:active {
-    color: black;
-  }
-}
+// .share-toggle {
+//   cursor: pointer;
+//   color: $grey;
+//   text-decoration: none;
+//   padding-top: 1px;
+//   &:hover {
+//     color: $black;
+//     text-decoration: underline;
+//     background: rgba(255, 255, 255, 0.8);
+//   }
+//   &:visited {
+//     color: black;
+//   }
+//   &:active {
+//     color: black;
+//   }
+// }
+
+
 #logo {
   white-space: nowrap;
 }
