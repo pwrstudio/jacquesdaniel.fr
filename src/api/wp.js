@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 
-const API_ROOT = 'http://wordpress.jacquesdaniel.fr/wp-json/wp/v2/'
+// const API_ROOT = 'https://wordpress.jacquesdaniel.fr/wp-json/wp/v2/'
+const API_ROOT = 'http://jd-wp.benediktreichenbach.com/wp-json/wp/v2/'
 const INDEX_ID = 12
 
 Vue.use(VueResource)
@@ -100,7 +101,7 @@ export default {
     return new Promise((resolve, reject) => {
       Vue.http.get(API_ROOT + 'item/?search=' + encodeURI(term) + '&per_page=100').then(
         response => {
-          resolve({posts: response.body, term: term})
+          resolve({ posts: response.body, term: term })
         },
         response => {
           reject()
