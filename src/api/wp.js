@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 
-const API_ROOT = 'https://wordpress.jacquesdaniel.fr/wp-json/wp/v2/'
+// const API_ROOT = 'http://localhost/wp-json/wp/v2/'
+// const API_ROOT = 'https://wordpress.jacquesdaniel.fr/wp-json/wp/v2/'
 // const API_ROOT = 'http://jd-wp.benediktreichenbach.com/wp-json/wp/v2/'
+const API_ROOT =
+  'https://api.jacquesdaniel.benediktreichenbach.com/wp-json/wp/v2/'
 const INDEX_ID = 12
 
 Vue.use(VueResource)
@@ -52,7 +55,7 @@ export default {
         response => {
           resolve({
             id: id,
-            posts: response.body
+            posts: response.body,
           })
         },
         response => {
@@ -99,14 +102,16 @@ export default {
   },
   getSearch(term) {
     return new Promise((resolve, reject) => {
-      Vue.http.get(API_ROOT + 'item/?search=' + encodeURI(term) + '&per_page=100').then(
-        response => {
-          resolve({ posts: response.body, term: term })
-        },
-        response => {
-          reject()
-        }
-      )
+      Vue.http
+        .get(API_ROOT + 'item/?search=' + encodeURI(term) + '&per_page=100')
+        .then(
+          response => {
+            resolve({ posts: response.body, term: term })
+          },
+          response => {
+            reject()
+          }
+        )
     })
-  }
+  },
 }
